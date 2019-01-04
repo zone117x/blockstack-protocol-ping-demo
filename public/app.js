@@ -27,7 +27,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
     showProfile(profile)
   } else if (blockstack.isSignInPending()) {
     blockstack.handlePendingSignIn().then(function (userData) {
-      window.location = window.location.origin
+      let curLocation = window.location.href;
+      let newLocation = curLocation.split("?authResponse=")[0].substring(window.location.origin.length);
+      window.history.replaceState({}, document.title, newLocation);
     })
   }
 })
