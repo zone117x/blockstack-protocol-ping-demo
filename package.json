@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "browserify": "browserify requires.js -o public/bundle.js",
-    "copyDist": "cp /Users/matthewlittle/Projects/blockstack.js/dist/blockstack.js public/bundle.js",
+    "copyDist": "cp /Users/matthewlittle/Projects/blockstack.js-storage/dist/blockstack.js public/blockstack.js",
     "start": "npm run copyDist && node server.js"
   },
   "repository": {
@@ -23,6 +23,5 @@
     "express": "^4.15.2",
     "opn": "^4.0.2"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }

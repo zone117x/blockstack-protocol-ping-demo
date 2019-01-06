@@ -30,6 +30,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
       let curLocation = window.location.href;
       let newLocation = curLocation.split("?authResponse=")[0].substring(window.location.origin.length);
       window.history.replaceState({}, document.title, newLocation);
+      showProfile(profile)
     })
   }
 })
