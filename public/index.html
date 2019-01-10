@@ -33,7 +33,8 @@
       </div>
       <div>
         <a href="#" class="btn btn-primary btn-lg" id="test-button">
-          Test no protocol handler launch via iframe (prevent Safari popup)
+          Launch a bogus custom protocol with no handler
+          <br>(test browser behavior - make sure no prompts are shown)
         </a>
         <script>
           document.getElementById('test-button').addEventListener('click', function (event) {
