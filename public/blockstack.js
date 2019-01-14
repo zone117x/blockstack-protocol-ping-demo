@@ -159,7 +159,7 @@ function redirectToSignInWithAuthRequest() {
     // but not showing any browser prompts, so we want to ignore those instances.
     var isRefocused = false;
     inputPromptTracker.addEventListener('focus', function () {
-      return isRefocused = true;
+      isRefocused = true;
     }, { once: true, capture: true });
     setTimeout(function () {
       if (redirectToWebAuthTimer && !isRefocused) {
@@ -2252,20 +2252,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
     return;
   }
   // Check if the location query string contains a protocol-echo reply.
+  // If so, this page was only re-opened to signal back the originating 
+  // tab that the protocol handler is installed. 
   var queryDict = _queryString2.default.parse(window.location.search);
   if (queryDict.echoReply) {
     // Use localStorage to notify originated tab that protocol handler is available and working.
     var echoReplyKey = 'echo-reply-' + queryDict.echoReply;
-    // Check localStorage for a pending protocol detection.
-    // If so, this page was only re-opened to signal back the originating 
-    // tab that the protocol handler is installed. 
-    if (window.localStorage.getItem(echoReplyKey) === 'pending') {
-      // Set the echo-reply result in localStorage for the other window to see.
-      window.localStorage.setItem(echoReplyKey, 'success');
-      // Redirect back to the localhost auth url, as opposed to another protocol launch.
-      // This will re-use the same tab rather than creating another useless one.
-      window.location = decodeURIComponent(queryDict.authContinuation);
-    }
+    // Set the echo-reply result in localStorage for the other window to see.
+    window.localStorage.setItem(echoReplyKey, 'success');
+    // Redirect back to the localhost auth url, as opposed to another protocol launch.
+    // This will re-use the same tab rather than creating another useless one.
+    window.location = decodeURIComponent(queryDict.authContinuation);
   }
 })();
 },{"./auth":7,"./config":8,"./dids":9,"./encryption":10,"./keys":13,"./network":15,"./operations":16,"./profiles":22,"./storage":45,"./utils":46,"./wallet":47,"jsontokens":290,"query-string":351}],13:[function(require,module,exports){
@@ -15798,7 +15795,7 @@ module.exports={
   "_resolved": "https://registry.npmjs.org/bigi/-/bigi-1.4.2.tgz",
   "_shasum": "9c665a95f88b8b08fc05cfd731f561859d725825",
   "_spec": "bigi@^1.4.2",
-  "_where": "/Users/matthewlittle/Projects/blockstack.js-storage",
+  "_where": "/Users/matthewlittle/Projects/blockstack.js",
   "bugs": {
     "url": "https://github.com/cryptocoinjs/bigi/issues"
   },
@@ -46639,10 +46636,10 @@ module.exports={
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/cheerio/-/cheerio-0.22.0.tgz",
+  "_resolved": "http://registry.npmjs.org/cheerio/-/cheerio-0.22.0.tgz",
   "_shasum": "a9baa860a3f9b595a6b81b1a86873121ed3a269e",
   "_spec": "cheerio@^0.22.0",
-  "_where": "/Users/matthewlittle/Projects/blockstack.js-storage",
+  "_where": "/Users/matthewlittle/Projects/blockstack.js",
   "author": {
     "name": "Matt Mueller",
     "email": "mattmuelle@gmail.com",
@@ -54927,21 +54924,27 @@ utils.intFromLE = intFromLE;
 
 },{"bn.js":136,"minimalistic-assert":324,"minimalistic-crypto-utils":325}],240:[function(require,module,exports){
 module.exports={
-  "_from": "elliptic@^6.4.0",
+  "_args": [
+    [
+      "elliptic@6.4.1",
+      "/Users/matthewlittle/Projects/blockstack.js"
+    ]
+  ],
+  "_from": "elliptic@6.4.1",
   "_id": "elliptic@6.4.1",
   "_inBundle": false,
   "_integrity": "sha512-BsXLz5sqX8OHcsh7CqBMztyXARmGQ3LWPtGjJi6DiJHq5C/qvi9P3OqgswKSDftbu8+IoI/QDTAm2fFnQ9SZSQ==",
   "_location": "/elliptic",
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "elliptic@^6.4.0",
+    "raw": "elliptic@6.4.1",
     "name": "elliptic",
     "escapedName": "elliptic",
-    "rawSpec": "^6.4.0",
+    "rawSpec": "6.4.1",
     "saveSpec": null,
-    "fetchSpec": "^6.4.0"
+    "fetchSpec": "6.4.1"
   },
   "_requiredBy": [
     "/",
@@ -54952,9 +54955,8 @@ module.exports={
     "/tiny-secp256k1"
   ],
   "_resolved": "https://registry.npmjs.org/elliptic/-/elliptic-6.4.1.tgz",
-  "_shasum": "c2d0b7776911b86722c632c3c06c60f2f819939a",
-  "_spec": "elliptic@^6.4.0",
-  "_where": "/Users/matthewlittle/Projects/blockstack.js-storage",
+  "_spec": "6.4.1",
+  "_where": "/Users/matthewlittle/Projects/blockstack.js",
   "author": {
     "name": "Fedor Indutny",
     "email": "fedor@indutny.com"
@@ -54962,7 +54964,6 @@ module.exports={
   "bugs": {
     "url": "https://github.com/indutny/elliptic/issues"
   },
-  "bundleDependencies": false,
   "dependencies": {
     "bn.js": "^4.4.0",
     "brorand": "^1.0.1",
@@ -54972,7 +54973,6 @@ module.exports={
     "minimalistic-assert": "^1.0.0",
     "minimalistic-crypto-utils": "^1.0.0"
   },
-  "deprecated": false,
   "description": "EC cryptography",
   "devDependencies": {
     "brfs": "^1.4.3",
