@@ -129,14 +129,26 @@ function detectProtocolLaunch(authRequest, successCallback, failCallback) {
   var startWebAuthRedirectTimer = function startWebAuthRedirectTimer() {
     var timeout = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : detectionTimeout;
 
-    // Wait 2000ms for custom protocol to auth otherwise redirect to web auth.
     cancelWebAuthRedirectTimer();
     redirectToWebAuthTimer = window.setTimeout(function () {
-      cancelWebAuthRedirectTimer();
-      cleanUpLocalStorage();
-      // Custom protocol handler not detected. Redirect to web auth..
-      _logger.Logger.info('Protocol handler not detected');
-      failCallback();
+      if (redirectToWebAuthTimer) {
+        cancelWebAuthRedirectTimer();
+        var nextFunc = void 0;
+        if (window.localStorage.getItem(echoReplyKey) === 'success') {
+          _logger.Logger.info('Protocol echo reply detected.');
+          nextFunc = successCallback;
+        } else {
+          _logger.Logger.info('Protocol handler not detected.');
+          nextFunc = failCallback;
+        }
+        failCallback = function failCallback() {};
+        successCallback = function successCallback() {};
+        cleanUpLocalStorage();
+        // Briefly wait since localStorage changes can sometimes be ignored when immediately redirected.
+        setTimeout(function () {
+          return nextFunc();
+        }, 100);
+      }
     }, timeout);
   };
 
@@ -207,11 +219,17 @@ function detectProtocolLaunch(authRequest, successCallback, failCallback) {
       // Custom protocol worked, cancel the web auth redirect timer.
       cancelWebAuthRedirectTimer();
       inputPromptTracker.removeEventListener('blur', inputBlurredFunc);
-      _logger.Logger.info('Protocol echo reply detected.');
+      _logger.Logger.info('Protocol echo reply detected from localStorage event.');
       // Clean up event listener and localStorage.
       window.removeEventListener('storage', replyEventListener);
+      var nextFunc = successCallback;
+      successCallback = function successCallback() {};
+      failCallback = function failCallback() {};
       cleanUpLocalStorage();
-      successCallback();
+      // Briefly wait since localStorage changes can sometimes be ignored when immediately redirected.
+      setTimeout(function () {
+        return nextFunc();
+      }, 100);
     }
   }, false);
 
@@ -2304,7 +2322,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
     window.localStorage.setItem(echoReplyKey, 'success');
     // Redirect back to the localhost auth url, as opposed to another protocol launch.
     // This will re-use the same tab rather than creating another useless one.
-    window.location = decodeURIComponent(queryDict.authContinuation);
+    window.setTimeout(function () {
+      window.location = decodeURIComponent(queryDict.authContinuation);
+    }, 10);
   }
 })();
 },{"./auth":7,"./config":8,"./dids":9,"./encryption":10,"./keys":13,"./network":15,"./operations":16,"./profiles":22,"./storage":45,"./utils":46,"./wallet":47,"jsontokens":290,"query-string":351}],13:[function(require,module,exports){
