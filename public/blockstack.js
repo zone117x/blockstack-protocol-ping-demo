@@ -144,7 +144,8 @@ function detectProtocolLaunch(authRequest, successCallback, failCallback) {
         failCallback = function failCallback() {};
         successCallback = function successCallback() {};
         cleanUpLocalStorage();
-        // Briefly wait since localStorage changes can sometimes be ignored when immediately redirected.
+        // Briefly wait since localStorage changes can 
+        // sometimes be ignored when immediately redirected.
         setTimeout(function () {
           return nextFunc();
         }, 100);
@@ -226,7 +227,8 @@ function detectProtocolLaunch(authRequest, successCallback, failCallback) {
       successCallback = function successCallback() {};
       failCallback = function failCallback() {};
       cleanUpLocalStorage();
-      // Briefly wait since localStorage changes can sometimes be ignored when immediately redirected.
+      // Briefly wait since localStorage changes can sometimes 
+      // be ignored when immediately redirected.
       setTimeout(function () {
         return nextFunc();
       }, 100);
